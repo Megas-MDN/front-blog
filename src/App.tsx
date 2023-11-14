@@ -29,10 +29,9 @@ function App() {
       ...state,
     })
   );
-  const { setGoFetch } = useSocket({ fetchPush: push });
+  useSocket({ fetchPush: push });
   const fetchPost = async () => {
     await getPosts();
-    setGoFetch({ goFetch: false, fetch: '' });
   };
 
   useEffect(() => {

@@ -26,7 +26,6 @@ function FormPost() {
 
   const handleSumit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(form, '<--- formData');
     if (!form.title || !form.content || !form.user_id) {
       return setForm({
         ...initPost,
