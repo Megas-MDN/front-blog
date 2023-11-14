@@ -4,6 +4,7 @@ import { usePostsStore } from './store/postsStore';
 import { Post } from './components/Post';
 import { useSocket } from './hooks/useSocket';
 import FormPost from './components/FormPost';
+import { useFetchStore } from './store/fetchStore';
 
 export interface IPost {
   content: string;
@@ -23,21 +24,45 @@ function App() {
     posts: state.posts,
     getPosts: state.getPosts,
   }));
-  const { data, goFech } = useSocket();
+  const { fetchs, push, shift, setIsFetching, isFetching } = useFetchStore(
+    (state) => ({
+      ...state,
+    })
+  );
+  const { setGoFetch } = useSocket({ fetchPush: push });
   const fetchPost = async () => {
     await getPosts();
+    setGoFetch({ goFetch: false, fetch: '' });
   };
 
   useEffect(() => {
     fetchPost();
   }, []);
 
-  useEffect(() => {
-    console.log(goFech, data, '<--- goFech');
-    if (goFech.goFetch && goFech.fetch === 'fetchPost') {
-      fetchPost();
+  const goFetchs = async (fetchEvent: string) => {
+    try {
+      switch (fetchEvent) {
+        case 'fetchPost':
+          await fetchPost();
+          break;
+
+        default:
+          break;
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsFetching(false);
     }
-  }, [goFech, data]);
+  };
+  useEffect(() => {
+    if (!isFetching && fetchs.length > 0) {
+      setIsFetching(true);
+      const key = fetchs[0];
+      shift();
+      goFetchs(key);
+    }
+  }, [fetchs, isFetching]);
 
   return (
     <div>

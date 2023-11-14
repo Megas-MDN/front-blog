@@ -15,7 +15,7 @@ export interface ISocketData {
 
 const SOCKET_URL = import.meta.env.VITE_SOCKET_URL;
 
-export const useSocket = () => {
+export const useSocket = ({ fetchPush }) => {
   const socketRef = useRef<socket.Socket>(null);
   const [data, setData] = useState([]);
   const [goFech, setGoFetch] = useState({ goFetch: false, fetch: '' });
@@ -26,6 +26,7 @@ export const useSocket = () => {
       console.log(socketData);
       setData(socketData);
       setGoFetch({ goFetch: true, fetch: 'fetchPost' });
+      fetchPush('fetchPost');
     });
 
     return () => {
@@ -36,5 +37,6 @@ export const useSocket = () => {
   return {
     data,
     goFech,
+    setGoFetch,
   };
 };

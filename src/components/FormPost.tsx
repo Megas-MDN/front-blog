@@ -37,11 +37,11 @@ function FormPost() {
     setForm({ ...initPost });
   };
   return (
-    <div className='flex flex-col p-2 bb gap-1 items-center'>
-      <h1>Create Post</h1>
+    <div className='flex flex-col p-2 bb gap-1 items-center max-w-[300px] mx-auto'>
+      <h1 className='text-xl'>Create Post</h1>
       <hr />
-      <form onSubmit={handleSumit} className='flex flex-col gap-1'>
-        <label className='flex gap-1'>
+      <form onSubmit={handleSumit} className='flex flex-col gap-2 w-full p-1'>
+        <label className='flex justify-between w-full'>
           Title
           <input
             type='text'
@@ -50,7 +50,7 @@ function FormPost() {
             onChange={(e) => setForm({ ...form, title: e.target.value })}
           />
         </label>
-        <label className='flex gap-1'>
+        <label className='flex justify-between w-full'>
           Content
           <input
             type='text'
@@ -59,9 +59,10 @@ function FormPost() {
             onChange={(e) => setForm({ ...form, content: e.target.value })}
           />
         </label>
-        <label className='flex gap-1'>
+        <label className='flex justify-between w-full'>
           Author
           <select
+            className=' w-[66%]'
             name='author'
             value={form.user_id}
             onChange={(e) => setForm({ ...form, user_id: e.target.value })}
@@ -75,7 +76,9 @@ function FormPost() {
           </select>
         </label>
 
-        <button type='submit'>Submit</button>
+        <button type='submit' className='border border-zinc-600'>
+          Submit
+        </button>
       </form>
     </div>
   );
